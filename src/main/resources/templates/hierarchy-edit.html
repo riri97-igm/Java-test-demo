@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Edit Employee</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+
+		h2 {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		form {
+			width: 50%;
+			margin: 20px auto;
+			padding: 20px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			background-color: #f9f9f9;
+		}
+
+		div {
+			margin-bottom: 15px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		.error {
+			color: red;
+			font-size: 0.9em;
+		}
+
+		input,
+		select {
+			width: 100%;
+			padding: 8px;
+			box-sizing: border-box;
+		}
+
+		button {
+			padding: 10px 20px;
+			background-color: #5cb85c;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #4cae4c;
+		}
+
+		.cancel {
+			background-color: #d9534f;
+		}
+
+		.cancel:hover {
+			background-color: #c9302c;
+		}
+	</style>
+</head>
+
+<body>
+	<h2>Edit Employee</h2>
+	
+	<form action="/admin/hierarchy/edit/mgrId" method="post" th:object="${employee}">
+		<input type="hidden" name="empId" th:value="${employee.userId}"/>
+		<div>
+			<label>Employee Id:</label>
+			<input type="text" th:value="${employee.userId}" readonly>
+		</div>
+		<div>
+			<label>Full Name:</label>
+			<input type="text" th:value="${employee.firstName} + ' ' + ${employee.lastName}" readonly>
+		</div>
+		
+		<div>
+			<label>Current Employee Type:</label>
+			<input type="text" th:value="${employee.empType.empTypeName}" readonly>
+		</div>
+		<div>
+			<label>Manager:</label>
+			<select name="managerId"> 
+				<option value="0" th:selected="${employee.manager == null}">No Manager</option>
+				            <option th:each="manager : ${managerEmployees}" 
+				                    th:if="${manager.isManager}" 
+				                    th:value="${manager.userId}"
+				                    th:text="${manager.firstName + ' ' + manager.lastName}">
+				            </option>
+			</select>
+			
+		</div>    
+	        <button type="submit">Submit</button>
+	    </form>
+</body>
+
+</html>

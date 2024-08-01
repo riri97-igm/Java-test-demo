@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Compensation Claim Details</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		window.onload = function () {
+			const cancelbtn = document.getElementById("cancel-claim");
+			const approvebtn = document.getElementById("approve-claim");
+			const rejectbtn = document.getElementById("reject-claim");
+
+			if (cancelbtn) {
+				cancelbtn.addEventListener("click", cancelClaim);
+			}
+			if (approvebtn) {
+				approvebtn.addEventListener("click", approveClaim);
+			}
+			if (rejectbtn) {
+				rejectbtn.addEventListener("click", rejectClaim);
+			}
+
+			function cancelClaim(event) {
+				event.preventDefault();
+				const claimId = /*[[${claim.claimId}]]*/;
+
+				fetch(`/compensation/claim/${claimId}/cancel`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({claimId: claimId})
+				})
+					.then(response => {
+						if (response.ok) {
+							console.log("Claim cancelled successfully.");
+							window.location.href = `/compensation/claim/${claimId}`;
+						} else {
+							console.log("Claim cancellation failed.");
+						}
+					})
+					.catch(error => {
+						console.error("Error cancelling claim.", error);
+					});
+			}
+
+			function approveClaim(event) {
+				event.preventDefault();
+				const claimId = /*[[${claim.claimId}]]*/
+
+				fetch(`/compensation/claim/${claimId}/approve`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({claimId: claimId})
+				})
+					.then(response => {
+						if (response.ok) {
+							console.log("Claim approved success.");
+							window.location.href = `/compensation/claim/${claimId}`;
+						} else {
+							console.log("Claim approval failed.");
+						}
+					})
+					.catch(error => {
+						console.error("Error approving claim.", error);
+					});
+			}
+
+			function rejectClaim(event) {
+				event.preventDefault();
+				const claimId = /*[[${claim.claimId}]]*/
+
+				fetch(`/compensation/claim/${claimId}/reject`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({claimId: claimId})
+				})
+					.then(response => {
+						if (response.ok) {
+							console.log("Claim reject success.");
+							window.location.href = `/compensation/claim/${claimId}`;
+						} else {
+							console.log("Claim reject failed.");
+						}
+					})
+					.catch(error => {
+						console.error("Error rejecting claim.", error);
+					});
+			}
+
+		};
+		/*]]>*/
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<h3>Claim Details</h3>
+		<a th:href="@{/compensation/claims}" class="btn btn-secondary">Back to Claims List</a>
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Claim ID: <span th:text="${claim.claimId}"></span></h5>
+				<p class="card-text">Employee: <span
+						th:text="${claim.employee.firstName + ' ' + claim.employee.lastName}"></span></p>
+				<p class="card-text">Approving Manager:
+					<span th:if="${claim.approveManager != null}"
+						th:text="${claim.approveManager.firstName + ' ' + claim.approveManager.lastName}"></span>
+					<span th:unless="${claim.approveManager != null}">N.A.</span>
+				</p>
+				<p class="card-text">Claim Quantity: <span th:text="${claim.claimQty}"></span></p>
+				<p class="card-text">Status: <span th:text="${claim.status}"></span></p>
+				<p class="card-text">Remarks: <span th:text="${claim.remarks}"></span></p>
+				<p class="card-text">Created: <span th:text="${claim.createTime}"></span></p>
+				<p class="card-text">Last Updated: <span th:text="${claim.lastUpdateTime}"></span></p>
+
+				<div th:if="${userRole == 'EMPLOYEE' and claimstatus == 'Pending'}">
+					<button id="cancel-claim" type="submit" class="btn btn-danger">Cancel Claim</button>
+				</div>
+
+				<div th:if="${userRole == 'MANAGER' and claimstatus == 'Pending'}">
+					<button id="approve-claim" type="submit" class="btn btn-success">Approve Claim</button>
+					<button id="reject-claim" type="submit" class="btn btn-danger">Reject Claim</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

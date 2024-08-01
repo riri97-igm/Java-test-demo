@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Compensation Claims</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<h3>Create a new compensation claim</h3>
+		<form action="#" th:action="@{/compensation/create}" th:object="${claim}" method="POST">
+			<p>Number of days to claim</p>
+			<input type="number" th:field="*{claimQty}" placeholder="Number of days (min = 0.5 days)" step=0.5 class="form-control mb-4 col-4">
+			<p>Additional remarks and/or justification</p>
+			<input type="text" th:field="*{remarks}" placeholder="Remarks (optional)" class="form-control mb-4 col-4">
+			<button type="submit" class="btn btn-info col-2">Submit</button>
+		</form>
+
+		<a th:href="@{/compensation/claims}"> Back to My Claims </a>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Leave Entitlement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="number"] {
+            width: calc(100% - 16px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group input[type="number"]:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button-group button,
+        .button-group a {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        .button-group button:hover,
+        .button-group a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+	<h1>Edit Leave Entitlement</h1>
+	<form th:action="@{/admin/entitlement/edit/{id}(id=${entitlement.leaveEntId})}" th:object="${entitlement}" method="post">
+	    <input type="hidden" th:field="*{leaveEntId}"/>
+	    <div class="form-group">
+	        <label>Employee Type:</label>
+	        <span th:text="${entitlement.empType.empTypeName}" readonly></span>
+	    </div>
+	    <div class="form-group">
+	        <label>Leave Type:</label>
+	        <span th:text="${entitlement.leaveType.leaveTypeName}" readonly></span>
+	    </div>
+	    <div class="form-group">
+	        <label>Entitlement Quantity:</label>
+	        <input type="number" th:field="*{entitlementQty}"/>
+	        <span th:if="${#fields.hasErrors('entitlementQty')}" th:errors="*{entitlementQty}" class="error"></span>
+	    </div>
+	    <div class="button-group">
+	        <button type="submit">Save</button>
+	        <a th:href="@{/admin/entitlement/list}">Back</a>
+	    </div>
+	</form>
+</body>
+</html>

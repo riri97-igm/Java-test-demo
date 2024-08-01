@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Entitlement List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .button-container button:hover {
+            background-color: #4cae4c;
+        }
+
+        .delete-button button {
+            background-color: #d9534f;
+        }
+
+        .delete-button button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Current Entitlement List</h2>
+
+    <h3 style="text-align: center;" th:if="${#lists.isEmpty(entitlementList)}">No Results.</h3>
+    <table th:if="${not #lists.isEmpty(entitlementList)}">
+        <thead>
+            <tr>
+                <th>Leave Id</th>
+                <th>EmpType</th>
+                <th>LeaveType</th>
+                <th>Entitlement Quantity</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entitlement : ${entitlementList}">
+                <td th:text="${entitlement.leaveEntId}">Leave Employee Id</td>
+                <td th:text="${entitlement.empType.empTypeName}">Employee Type</td>
+                <td th:text="${entitlement.leaveType.leaveTypeName}">Leave Type</td>
+                <td th:text="${entitlement.entitlementQty}">Entitlement Quantity</td>
+                <td><a th:href="@{'/admin/entitlement/edit/' + ${entitlement.leaveEntId}}">Edit</a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

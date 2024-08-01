@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments::html_head">
+</head>
+
+<body>
+	<!-- Navbar -->
+	<div th:replace="fragments::navbar"></div>
+	<!-- Banner -->
+	<div th:replace="fragments::banner"></div>
+
+  <!--Leave Record Tab-->
+  <section>
+    <div class="container">
+      <ul class="nav nav-tabs py-3" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="requests-tab" data-bs-toggle="tab" data-bs-target="#requests-tab-pane"
+            type="button" role="tab" style="color:#EF7C00">Requests</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="claims-tab" data-bs-toggle="tab" data-bs-target="#claims-tab-pane"
+            type="button" role="tab" style="color:#EF7C00">Claims</button>
+        </li>
+		<li class="nav-item" role="presentation">
+		  <button class="nav-link" id="balance-tab" data-bs-toggle="tab" data-bs-target="#balance-tab-pane"
+		    type="button" role="tab" style="color:#EF7C00">Balance</button>
+		</li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="requests-tab-pane" role="tabpanel" tabindex="0">
+          <p th:if="${not #lists.isEmpty(myleaves)}" class="pt-2"> Total: <span th:text="${totalleave}"></span> items</p>
+		  <h3 th:if="${#lists.isEmpty(myleaves)}" class="pt-5"> You have no leave records.</h3>
+          <table th:if="${not #lists.isEmpty(myleaves)}" class="table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Leave Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+				<th scope="col">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="myleave:${myleaves}">
+                <td th:text="${myleave.leaveDate}"scope="row"></td>
+                <td th:text="${myleave.leaveType}"scope="row"></td>
+				<td th:text="${myleave.leaveQty}"scope="row"></td>
+				<td th:text="${myleave.status}"scope="row"></td>
+                <td>
+					<a th:if="${myleave.status == T(ca.java.team6.entities.EmployeeLeaveRecord.elrStatus).Rejected}" href="#updatelLeve">Update / </a>
+					<a href="#cancelLeve">Cancel</a>
+				</td>
+				<td><a href="#leaveDetail">View</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="claims-tab-pane" role="tabpanel" tabindex="0">
+			<p th:if="${not #lists.isEmpty(myclaims)}" class="pt-2"> Total: <span th:text="${totalclaim}"></span> items</p>
+			<h3 th:if="${#lists.isEmpty(myclaims)}" class="pt-5"> You have no claim records.</h3>
+			<table th:if="${not #lists.isEmpty(myclaims)}" class="table">
+				<thead>
+					<tr>
+						<th scope="col">Remark</th>
+			            <th scope="col">Quantity</th>
+			            <th scope="col">Status</th>
+			            <th scope="col">Actions</th>
+						<th scope="col">Details</th>
+			        </tr>
+			    </thead>
+				<tbody>
+					<tr th:each="myclaim:${myclaims}">
+			            <td th:text="${myclaim.remarks}"scope="row"></td>
+			            <td th:text="${myclaim.claimQty}"scope="row"></td>
+						<td th:text="${myclaim.status}"scope="row"></td>
+			            <td><a th:if="${myclaim.status == T(ca.java.team6.entities.CompensationClaimRecord.ccrStatus).Pending}" href="#updatelLeve">Update / </a>
+							<a href="#cancelLeve">Cancel</a></td>
+						<td><a href="#leaveDetail">View</a></td>
+					</tr>
+			    </tbody>
+			 </table>
+		 </div>
+		 <div class="tab-pane fade" id="balance-tab-pane" role="tabpanel" tabindex="0">
+		 			<table class="table">
+		 				<thead>
+		 					<tr>
+		 						<th scope="col">Year</th>
+								<th scope="col">LeaveType</th>
+		 			            <th scope="col">Entitlement</th>
+		 			            <th scope="col">Taken</th>
+		 			            <th scope="col">Balance</th>
+		 			        </tr>
+		 			    </thead>
+		 				<tbody>
+		 					
+		 			    </tbody>
+		 			 </table>
+		 		 </div>
+	 </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div th:replace="fragments::footer"></div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

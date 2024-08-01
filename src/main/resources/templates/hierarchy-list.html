@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Hierarchy</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Current Employee List</h2>
+        <h3 class="text-center text-muted" th:if="${#lists.isEmpty(employeeList)}">No Results.</h3>
+        <div class="table-responsive" th:if="${not #lists.isEmpty(employeeList)}">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Employee Type</th>
+                        <th>Manager Id</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="employee : ${employeeList}">
+                        <td th:text="${employee.userId}">Employee ID</td>
+                        <td th:text="${employee.firstName}">First Name</td>
+                        <td th:text="${employee.lastName}">Last Name</td>
+                        <td th:text="${employee.empType.empTypeName}">Employee Type</td>
+                        <td>
+                            <span th:if="${employee.manager}" th:text="${employee.manager.userId}"></span>
+                            <span th:unless="${employee.manager}">No manager</span>
+                        </td>
+                        <td><a th:href="'/admin/hierarchy/edit/' + ${employee.userId}" class="btn btn-primary btn-sm">Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
