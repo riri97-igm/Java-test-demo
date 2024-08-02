@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - java-test-demo
+name: Build and deploy JAR app to Azure Web App - lioneats
 
 on:
   push:
@@ -49,15 +49,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_03F330FA025847909E5B240C0522D7F5 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5BF491C2EC624897BDBDFFDEE3B1C944 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5E8A216CE2E1477C9430984CD7BD2038 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6697295C8D604B17B2AAE2E8BA390536 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_93EF14B999084B08B64F90554F85B2D1 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FB067A008B4C4529B0D9634AAE6CD91B }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'java-test-demo'
+          app-name: 'lioneats'
           slot-name: 'Production'
           package: '*.jar'
           
